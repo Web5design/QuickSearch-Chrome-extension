@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <script src="vaike/xhr.vaike.js"></script>
+
+        <script>
+
+
+
+            // chrome.experimental.omnibox.onInputChanged.addListener(
+            //   function(text, suggest) {
+            //     console.log('inputChanged: ' + text);
+            //     suggest([
+            //       {content: text + " one", description: "the first one"},
+            //       {content: text + " number two", description: "the second entry"}
+            //     ]);
+            // });
+
+
+            // chrome.tabs.executeScript(1, {file: "result.js"});
+
+            var content = "";
+
+            var tab = chrome.tabs.create({ url: "http://google.com"}, function (tab) {
+
+                // init
+                chrome.tabs.executeScript(tab.id, { file: "result.js" });
+                chrome.tabs.insertCSS(tab.id, { file: "result.css" });
+
+
+                chrome.browserAction.onClicked.addListener(function(tab) {
+
+                    VAIKE.xhr.sendXHR('http://www.google.com/search?q=adlocal', function (xhr) {
+
+                        if (xhr.status === 200) {
+                            chrome.tabs.getSelected(null, function(tab) {
+                              chrome.tabs.sendRequest(tab.id, { htmlContent: xhr.responseText }, function(response) {});
+                            });
+                        }
+                    });
+                });
+
+            });
+
+
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>

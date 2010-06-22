@@ -1,0 +1,7 @@
+#qgoogle-result {
+    position: absolute;
+    top: 40px;
+    width: 500px;
+    margin: auto;
+    background: #ddd;
+}
