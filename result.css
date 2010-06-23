@@ -1,7 +1,19 @@
 #qgoogle-result {
     position: absolute;
-    top: 40px;
-    width: 500px;
+    top: 140px;
+    padding: 20px;
+    width: 80%;
     margin: auto;
-    background: #ddd;
+    background: #fff;
+    font-size: 80%;
+}
+
+#qgoogle-result h3 {
+    font-size: 100%;
+}
+
+#qgoogle-result p {
+}
+
+#qgoogle-result a {
 }

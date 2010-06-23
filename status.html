@@ -4,47 +4,90 @@
 
         <script>
 
+            // var resultRegExp = /<!--m-->([\S|\s]+)<!--m-->/g;
+            // var resultRegExp = /<li\sclass=g>([\S|\s]*)<li/g;
+            var resultRegExp = /<li class=g>([\S|\s]+)<li class=g>/;
 
+            var timer;
 
-            // chrome.experimental.omnibox.onInputChanged.addListener(
-            //   function(text, suggest) {
-            //     console.log('inputChanged: ' + text);
-            //     suggest([
-            //       {content: text + " one", description: "the first one"},
-            //       {content: text + " number two", description: "the second entry"}
-            //     ]);
-            // });
+            var delay = 300;
 
+            function makeSearch(query) {
 
-            // chrome.tabs.executeScript(1, {file: "result.js"});
-
-            var content = "";
-
-            var tab = chrome.tabs.create({ url: "http://google.com"}, function (tab) {
-
+                clearTimer();
                 // init
-                chrome.tabs.executeScript(tab.id, { file: "result.js" });
-                chrome.tabs.insertCSS(tab.id, { file: "result.css" });
+                // chrome.tabs.executeScript(null, { file: "result.js" });
+                // chrome.tabs.insertCSS(null, { file: "result.css" });
 
 
-                chrome.browserAction.onClicked.addListener(function(tab) {
+                // if (query.length === 0) {
+                //     sendMessage({ verb: "clear" });
+                //     return;
+                // }
+                //
+                // if (query.length === 1) {
+                //     return;
+                // }
 
-                    VAIKE.xhr.sendXHR('http://www.google.com/search?q=adlocal', function (xhr) {
+                VAIKE.xhr.sendXHR('http://www.google.com/search?q=' + query, function (xhr) {
 
-                        if (xhr.status === 200) {
-                            chrome.tabs.getSelected(null, function(tab) {
-                              chrome.tabs.sendRequest(tab.id, { htmlContent: xhr.responseText }, function(response) {});
-                            });
+                    if (xhr.status === 200) {
+                        var tmp = document.createElement("div");
+                        tmp.innerHTML = xhr.responseText;
+
+
+                        // this should be done with regexps
+                        var entries = tmp.getElementsByClassName("g");
+
+                        var elements = [],
+                            title,
+                            desc;
+
+                        for (var i = 0, l = entries.length; i < l; i++) {
+
+                            if (entries[i].getElementsByClassName("s")[0] !== undefined) {
+                                title = entries[i].getElementsByClassName("r")[0].getElementsByTagName("a")[0].innerHTML;
+                                desc = entries[i].getElementsByClassName("s")[0].innerHTML;
+                                elements.push({ title: title, desc: desc });
+                            }
                         }
-                    });
-                });
 
-            });
+                        sendMessage({ verb: "update", entries: elements });
+                    }
+                });
+            }
+
+
+            function sendMessage(message) {
+
+                chrome.tabs.getSelected(null, function(tab) {
+                  chrome.tabs.sendRequest(tab.id, message, function(response) {});
+                });
+            }
+
+
+            function clearTimer() {
+                if (timer !== undefined) {
+                    clearTimeout(timer);
+                }
+            }
+
+
+            function init() {
+
+                chrome.experimental.omnibox.onInputChanged.addListener( function(text, suggest) {
+
+                    clearTimer();
+                    timer = setTimeout(function () {
+                        makeSearch(text);
+                    }, delay);
+                });
+            }
 
 
         </script>
     </head>
-    <body>
+    <body onload="init()">
 
     </body>
 </html>

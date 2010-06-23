@@ -12,7 +12,12 @@
     "experimental",
     "tabs",
     "http://*/",
-    "https://*/"    
+    "https://*/"
   ],
-  "omnibox_keyword": "q"
+  "omnibox_keyword": "q",
+  "content_scripts": [{
+    "matches": ["http://*/", "https://*/" ],
+    "css": [ "result.css" ],
+    "js": ["result.js"]
+  }]
 }
