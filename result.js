@@ -11,12 +11,24 @@ function createHTML(entries) {
     }
 
 
-    var content = "";
+    var content = "",
+        entry = "";
 
     for (var i = 0, l = entries.length; i < l; i++) {
-        content += "<h3>" + entries[i].title + "</h3>";
-        content += "<p>" + entries[i].desc + "</p>";
-        content += "<hr>";
+
+        entry = "<div class='qgoogle-result-entry'>";
+
+        entry += "<div class='qgoogle-number'>" + i + "</div>";
+
+        entry += "<div class='qgoogle-result'>";
+
+        entry += "<h3>" + entries[i].title + "</h3>";
+        entry += "<p>" + entries[i].desc + "</p>";
+
+        entry += "</div>";
+        entry += "</div>";
+
+        content += entry;
     }
     container.innerHTML = content;
 

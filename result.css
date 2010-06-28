@@ -1,19 +1,45 @@
 #qgoogle-result {
+    font-size:13px;
+    text-align: left;
+    font-family: arial, sans-serif;
+    color: #222;
+    text-decoration: none;
+    line-height: 1em;
+
     position: absolute;
     top: 140px;
+    left: 10%;
     padding: 20px;
     width: 80%;
-    margin: auto;
+    margin: 0;
     background: #fff;
-    font-size: 80%;
+    text-align: left;
+    border: 1px solid #F6F6F6;
+    -webkit-box-shadow: 3px 3px 3px #666;
+    -webkit-border-radius: 5px;
 }
 
-#qgoogle-result h3 {
-    font-size: 100%;
+#qgoogle-result .qgoogle-result-entry {
+    clear: left;
+    background: #F6F6F6;
+    padding: 5px;
+    margin-top: 5px;
 }
 
-#qgoogle-result p {
+#qgoogle-result .qgoogle-result-entry:hover {
+    background: #CC5531;
+    color: #F0FFF0;
 }
 
-#qgoogle-result a {
+#qgoogle-result .qgoogle-result {
+    margin-left: 50px;
+}
+
+#qgoogle-result .qgoogle-number {
+    float: left;
+    width: 50px;
+    font-size: 30px;
+    position: relative;
+    top: 20px;
+    left: 16px;
 }

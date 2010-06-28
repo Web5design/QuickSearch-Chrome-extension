@@ -76,11 +76,16 @@
             function init() {
 
                 chrome.experimental.omnibox.onInputChanged.addListener( function(text, suggest) {
-
                     clearTimer();
                     timer = setTimeout(function () {
                         makeSearch(text);
                     }, delay);
+                });
+
+                chrome.experimental.omnibox.onInputEntered.addListener( function (text) {
+
+                    clearTimer();
+                    sendMessage({ verb: "clear", entries: elements });
                 });
             }
 
